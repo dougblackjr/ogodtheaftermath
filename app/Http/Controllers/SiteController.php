@@ -3,82 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Site;
+use Ping;
+use Giphy;
+use Carbon\Carbon;
 
 class SiteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+		return view('welcome');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+	public function create(Request $request)
+	{
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+		$site = Site::create([
+			'url' => $request->url
+		]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+		return response()->json($site);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+	}
+
+	public function ping()
+	{
+
+		$sites = Site::all();
+
+		$sites->each(function ($s) {
+
+			$ping = Ping::check($s->url);
+
+			$time = new Carbon();
+
+			$s->ok = $ping == 200;
+
+			if(!$s->ok) {
+
+				$gif = Giphy::random('dumpsterfire');
+
+				$s->img = $gif->data->image_original_url;
+			}
+
+			$s->pingedAt = $time->toDateTimeString();
+
+			return $s;
+
+		});
+
+		return response()->json($sites);
+
+	}
+
+	public function loader()
+	{
+
+		$gif = Giphy::random('help me');
+
+		return $gif->data->image_original_url;
+
+	}
+	
 }

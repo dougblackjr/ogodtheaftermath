@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'SiteController@index');
+
+Route::post('/add', 'SiteController@create');
+
+Route::get('/ping', 'SiteController@ping');
+
+Route::get('/gif', 'SiteController@loader');

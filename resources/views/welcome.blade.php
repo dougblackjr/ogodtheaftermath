@@ -14,16 +14,6 @@
 	</head>
 	<body>
 		<div class="flex-center position-ref full-height">
-			@if (Route::has('login'))
-				<div class="top-right links">
-					@auth
-						<a href="{{ url('/home') }}">Home</a>
-					@else
-						<a href="{{ route('login') }}">Login</a>
-						<a href="{{ route('register') }}">Register</a>
-					@endauth
-				</div>
-			@endif
 			{{-- App Start --}}
 			<div class="content" id="app">
 				<div class="title m-b-md">
@@ -33,17 +23,20 @@
 					{{-- Add Container --}}
 					<div class="row justify-content-center">
 						<div class="col-md-4">
-							<form method="get" accept-charset="utf-8" class="form-inline">
+							<form method="get" accept-charset="utf-8" class="form-inline" v-on:submit.prevent="addSite()">
 								<div class="form-group mb-2">
 									<label for="new_site">Add Site</label>
-									<input class="form-control" type="text" name="new_site" placeholder="URL" @click="addSite($event.target.value)" />
+									<input class="form-control" type="text" name="new_site" placeholder="URL" id="newSite" autocomplete="off" />
 								</div>
 							</form>
 						</div>
 					</div>
 
 					{{-- Sites --}}
-					<site v-for="s in sites" :key="s.id" :insite="s"></site>
+					<div class="row justify-content-center">
+						<loader v-if="!loaded" :ingif="gifForLoader"></loader>
+						<site v-if="loaded" v-for="s in sites" :key="s.id" :insite="s"></site>
+					</div>
 				</div>
 			</div>
 			{{-- End of App --}}

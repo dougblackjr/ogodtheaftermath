@@ -151,6 +151,8 @@ return [
          * Package Service Providers...
          */
         Karlmonson\Ping\PingServiceProvider::class,
+        Romeroqe\Giphy\GiphyServiceProvider::class,
+        Romeroqe\Giphy\StickersServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -210,6 +212,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Ping' => Karlmonson\Ping\Facades\Ping::class,
+        'Giphy' => Romeroqe\Giphy\GiphyFacade::class,
+        'Stickers' => Romeroqe\Giphy\StickersFacade::class,
 
     ],
 

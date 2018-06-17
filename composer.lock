@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9657ee475d7105f066443ea361f33a6c",
+    "content-hash": "ea9f4edbb53688ae6ede4b09c8b13365",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1545,6 +1545,53 @@
                 "uuid"
             ],
             "time": "2018-01-20T00:28:24+00:00"
+        },
+        {
+            "name": "romeroqe/giphy-and-stickers",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romeroqe/giphy-and-stickers.git",
+                "reference": "84b366c411ae38a28162e6609d0f793c6bd35806"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romeroqe/giphy-and-stickers/zipball/84b366c411ae38a28162e6609d0f793c6bd35806",
+                "reference": "84b366c411ae38a28162e6609d0f793c6bd35806",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Romeroqe\\Giphy\\": "src/",
+                    "Romeroqe\\Stickers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emmanuel Romero",
+                    "email": "romeroqe.93@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package that provides an interface between Laravel and Giphy API, includes Gifs and Stickers.",
+            "homepage": "https://github.com/romeroqe/giphy-and-stickers",
+            "keywords": [
+                "api",
+                "gif",
+                "giphy",
+                "laravel",
+                "php",
+                "sticker"
+            ],
+            "time": "2018-03-16T04:58:37+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4266,7 +4313,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "romeroqe/giphy-and-stickers": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

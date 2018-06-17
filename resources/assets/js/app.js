@@ -15,19 +15,63 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('site', require('./components/Site.vue'));
+Vue.component('site', require('./components/Site'))
+Vue.component('loader', require('./components/Loader'))
 
 const app = new Vue({
     el: '#app',
     data() {
     	return {
     		sites: [],
-    		showCreate: false
+    		loaded: false,
+    		gifForLoader: ''
     	}
     },
     methods: {
+    	getGif() {
+    		let self = this
+
+    		window.axios.get('/gif')
+    		.then((response) => {
+    			self.gifForLoader = response.data
+    		})
+    	},
     	getPings() {
 
+    		this.getGif()
+
+    		this.loaded = false
+
+    		let self = this
+
+    		window.axios.get('/ping')
+    		.then((response) => {
+    			self.sites = response.data
+    			self.loaded = true
+    		})
+
+    	},
+    	addSite() {
+    		
+    		let self = this
+
+    		let site = document.getElementById('newSite').value
+
+    		window.axios.post('/add', {
+    			url: site
+    		})
+    		.then((response) => {
+    			self.getPings()
+    		})
     	}
+    },
+    mounted() {
+    	this.getGif()
+    	this.getPings()
+
+        let self = this
+        setInterval(function() {
+            self.getPings()
+        }, 60000)
     }
 });

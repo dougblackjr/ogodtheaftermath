@@ -13892,19 +13892,61 @@ window.Vue = __webpack_require__(36);
  */
 
 Vue.component('site', __webpack_require__(44));
+Vue.component('loader', __webpack_require__(48));
 
 var app = new Vue({
-  el: '#app',
-  data: function data() {
-    return {
-      sites: [],
-      showCreate: false
-    };
-  },
+    el: '#app',
+    data: function data() {
+        return {
+            sites: [],
+            loaded: false,
+            gifForLoader: ''
+        };
+    },
 
-  methods: {
-    getPings: function getPings() {}
-  }
+    methods: {
+        getGif: function getGif() {
+            var self = this;
+
+            window.axios.get('/gif').then(function (response) {
+                self.gifForLoader = response.data;
+            });
+        },
+        getPings: function getPings() {
+
+            this.getGif();
+
+            this.loaded = false;
+
+            var self = this;
+
+            window.axios.get('/ping').then(function (response) {
+                self.sites = response.data;
+                self.loaded = true;
+            });
+        },
+        addSite: function addSite() {
+
+            var self = this;
+
+            var site = document.getElementById('newSite').value;
+
+            window.axios.post('/add', {
+                url: site
+            }).then(function (response) {
+                self.getPings();
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.getGif();
+        this.getPings();
+
+        var self = this;
+        setInterval(function () {
+            self.getPings();
+        }, 60000);
+    }
 });
 
 /***/ }),
@@ -47350,6 +47392,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['insite'],
@@ -47371,52 +47417,143 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card card-default" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Example Component")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c(
+  return _c("div", { staticClass: "col-md-4" }, [
+    _c("div", { staticClass: "card card-default" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v(_vm._s(_vm.site.url))]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm.site.ok
+          ? _c(
               "div",
               { staticClass: "alert alert-success", attrs: { role: "alert" } },
-              [
-                _vm._v(
-                  "\n                    This is a success alert—check it out!\n                "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
+              [_vm._v("\n                Site is ok\n            ")]
+            )
+          : _c(
               "div",
               { staticClass: "alert alert-danger", attrs: { role: "alert" } },
               [
-                _vm._v(
-                  "\n                    This is a danger alert—check it out!\n                "
-                )
+                _vm._v("\n                Unable to reach\n                "),
+                _c("img", { attrs: { src: _vm.site.img } })
               ]
+            ),
+        _vm._v(" "),
+        _c("p", [
+          _c("small", [
+            _vm._v(
+              "\n                    Last pinged: " +
+                _vm._s(_vm.site.pingedAt) +
+                "\n                "
             )
           ])
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-11b5847e", module.exports)
+  }
+}
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(45)
+/* script */
+var __vue_script__ = __webpack_require__(49)
+/* template */
+var __vue_template__ = __webpack_require__(50)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Loader.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8e36f8ec", Component.options)
+  } else {
+    hotAPI.reload("data-v-8e36f8ec", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: ['ingif'],
+	data: function data() {
+		return {
+			gif: this.ingif
+		};
+	},
+
+	computed: {
+		imgPath: function imgPath() {
+			return this.gif;
+		}
+	}
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-6" }, [
+    _c("img", { attrs: { src: _vm.imgPath } })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8e36f8ec", module.exports)
   }
 }
 

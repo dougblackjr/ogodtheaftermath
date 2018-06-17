@@ -1,17 +1,21 @@
-<template>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card card-default">
-                <div class="card-header">Example Component</div>
+<template>    
+    <div class="col-md-4">
+        <div class="card card-default">
+            <div class="card-header">{{ site.url }}</div>
 
-                <div class="card-body">
-                    <div class="alert alert-success" role="alert">
-                        This is a success alert—check it out!
-                    </div>
-                    <div class="alert alert-danger" role="alert">
-                        This is a danger alert—check it out!
-                    </div>
+            <div class="card-body">
+                <div v-if="site.ok" class="alert alert-success" role="alert">
+                    Site is ok
                 </div>
+                <div v-else class="alert alert-danger" role="alert">
+                    Unable to reach
+                    <img v-bind:src="site.img" />
+                </div>
+                <p>
+                    <small>
+                        Last pinged: {{ site.pingedAt }}
+                    </small>
+                </p>
             </div>
         </div>
     </div>
