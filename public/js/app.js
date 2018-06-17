@@ -47403,9 +47403,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             site: this.insite
         };
-    },
-    mounted: function mounted() {
-        console.log('Component mounted.');
     }
 });
 

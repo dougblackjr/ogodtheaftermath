@@ -30,9 +30,6 @@
             return {
                 site: this.insite
             }
-        },
-        mounted() {
-            console.log('Component mounted.')
         }
     }
 </script>
