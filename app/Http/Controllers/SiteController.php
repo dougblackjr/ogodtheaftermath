@@ -7,6 +7,8 @@ use App\Site;
 use Ping;
 use Giphy;
 use Carbon\Carbon;
+use App\Mail\DeadSiteEmail;
+use Mail;
 
 class SiteController extends Controller
 {
@@ -44,16 +46,38 @@ class SiteController extends Controller
 
 			$time = new Carbon();
 
-			$s->ok = $ping == 200;
+			$s->up = $ping == 200;
 
-			if(!$s->ok) {
+			$s->health = $ping;
+
+			$s->pingedAt = $time->toDateTimeString();
+
+			if(!$s->up) {
 
 				$gif = Giphy::random('dumpsterfire');
 
-				$s->img = $gif->data->image_original_url;
-			}
+				// This UP check will only send email once
+				if($s->up) {
 
-			$s->pingedAt = $time->toDateTimeString();
+					$s->up = FALSE;
+
+					$s->save();
+
+					// Send emergency mail
+					Mail::to($request->email)->send(new DeadSiteEmail($s));
+
+				}
+
+				$s->img = $gif->data->image_original_url;
+
+			} else {
+
+				if (!$s->up) {
+					$s->up = TRUE;
+					$s->save();
+				}
+
+			}
 
 			return $s;
 

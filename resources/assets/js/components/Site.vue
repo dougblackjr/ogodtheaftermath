@@ -4,7 +4,7 @@
             <div class="card-header">{{ site.url }}</div>
 
             <div class="card-body">
-                <div v-if="site.ok" class="alert alert-success" role="alert">
+                <div v-if="site.up" class="alert alert-success" role="alert">
                     Site is ok
                 </div>
                 <div v-else class="alert alert-danger" role="alert">

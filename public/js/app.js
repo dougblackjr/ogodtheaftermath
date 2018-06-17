@@ -47419,7 +47419,7 @@ var render = function() {
       _c("div", { staticClass: "card-header" }, [_vm._v(_vm._s(_vm.site.url))]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _vm.site.ok
+        _vm.site.up
           ? _c(
               "div",
               { staticClass: "alert alert-success", attrs: { role: "alert" } },
@@ -47521,7 +47521,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	props: ['ingif'],
 	data: function data() {
 		return {
-			gif: this.ingif
+			gif: this.ingif ? this.ingif : 'https://media.giphy.com/media/xTiTnDtaiN5cD21tQY/giphy.gif'
 		};
 	},
 

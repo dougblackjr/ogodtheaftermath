@@ -9,7 +9,7 @@
 		props: ['ingif'],
 		data() {
 			return {
-				gif: this.ingif
+				gif: (this.ingif ? this.ingif : 'https://media.giphy.com/media/xTiTnDtaiN5cD21tQY/giphy.gif')
 			}
 		},
 		computed: {
